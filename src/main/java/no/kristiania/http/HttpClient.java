@@ -23,16 +23,20 @@ public class HttpClient {
     }
 
     private String readLine(Socket socket) throws IOException {
-        StringBuilder result = new StringBuilder();
+        StringBuilder buffer = new StringBuilder();
         int c;
         while ((c = socket.getInputStream().read()) != '\r') {
-            result.append((char)c);
+            buffer.append((char)c);
         }
 
-        return result.toString();
+        return buffer.toString();
     }
 
     public int getStatusCode() {
         return statusCode;
+    }
+
+    public String getHeader(String headerName) {
+        return null;
     }
 }

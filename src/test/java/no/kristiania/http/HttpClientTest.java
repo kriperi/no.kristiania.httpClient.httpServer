@@ -8,13 +8,16 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HttpClientTest {
+
     @Test
-    void test () {
+    void shouldReturnStatusCode() throws IOException {
         assertEquals(200, 100 + 100);
+        assertEquals(404, new HttpClient("httpbin.org", 80, "/no-such-page").getStatusCode());
     }
 
     @Test
-    void shouldReturnStatusCode () throws IOException {
-        assertEquals(404, new HttpClient("httpbin.org", 80, "/no-such-page").getStatusCode());
+    void shouldReturnHeaders() throws IOException {
+        HttpClient client = new HttpClient("httpbin.org", 80, "/html");
+        assertEquals("text/html; charset=utf-8", client.getHeader("Content-Type"));
     }
 }

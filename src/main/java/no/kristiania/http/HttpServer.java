@@ -16,14 +16,17 @@ public class HttpServer {
 
         System.out.println(requestLine);
 
-        String response = "<h1>Hello world!</h1>";
+        String html = "<p>Hallååå</p>";
+        String contentType = "text/html; charset=utf-8";
 
-        clientSocket.getOutputStream().write((
-                        "HTTP/1.1 200 OK \r\n" +
-                        "Content-Length: " + response.length() + "\r\n" +
-                        "Connection: Close\r\n" +
-                        "\r\n"  +
-                        response
-        ).getBytes());
+        String response = "HTTP/1.1 200 OK \r\n" +
+                "Content-Length: " + html.getBytes().length + "\r\n" +
+                "Content-Type: " + contentType + "\r\n" +
+                "Connection: Close\r\n" +
+                "\r\n"  +
+                html;
+
+        clientSocket.getOutputStream().write(response.getBytes());
+
     }
 }

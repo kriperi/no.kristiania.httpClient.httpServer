@@ -11,11 +11,7 @@ public class HttpServer {
 
     public HttpServer(int serverPort) throws IOException {
         socket = new ServerSocket(serverPort);
-
         new Thread(this::handleClients).start();
-
-
-
     }
 
     private void handleClients() {

@@ -6,7 +6,6 @@ import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 
 public class HttpServer {
-
     private final ServerSocket socket;
 
     public HttpServer(int serverPort) throws IOException {
@@ -17,7 +16,14 @@ public class HttpServer {
     private void handleClients() {
         try {
             Socket clientSocket = socket.accept();
-            String response = "HTTP/1.1 404 NOT FOUND\r\nContent-Length: 0\r\n\r\n";
+
+            String[] requestLine = HttpClient.readLine(clientSocket).split(" ");
+            String requestTarget = requestLine[1];
+            String responseText = "File not found: " + requestTarget;
+
+            String response = "HTTP/1.1 404 NOT FOUND\r\n" +
+                    "Content-Length: " + responseText.length() + "\r\n" +
+                    "\r\n" + responseText;
             clientSocket.getOutputStream().write(response.getBytes());
         } catch (IOException e) {
             e.printStackTrace();
@@ -45,5 +51,9 @@ public class HttpServer {
 
         clientSocket.getOutputStream().write(response.getBytes());
 
+    }
+
+    public int getPort() {
+        return socket.getLocalPort();
     }
 }
